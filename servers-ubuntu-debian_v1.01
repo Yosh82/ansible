@@ -1,0 +1,23 @@
+---
+- name: Update and upgrade all Ubuntu/Debian hosts
+  hosts: all
+  become: yes  # Run with sudo
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600  # Only updates if cache is older than 1 hour
+
+    - name: Upgrade all packages
+      apt:
+        upgrade: dist  # Options: yes, safe, full, dist (recommended)
+        autoremove: yes
+        autoclean: yes
+
+    - name: Reboot if necessary
+      reboot:
+        msg: "Rebooting after package upgrade"
+        pre_reboot_delay: 60
+        post_reboot_delay: 60
+      when: ansible_facts['os_family'] == 'Debian'
+        and ansible_facts['distribution'] in ['Ubuntu', 'Debian']
