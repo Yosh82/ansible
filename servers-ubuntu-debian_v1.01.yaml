@@ -1,6 +1,6 @@
 ---
 - name: Update and upgrade all Ubuntu/Debian hosts
-  hosts: all
+  hosts: servers
   become: yes  # Run with sudo
   tasks:
     - name: Update apt cache
