@@ -3,9 +3,13 @@
   hosts: servers
   become: yes
   ignore_unreachable: yes  # Ignore unreachable hosts
-  gather_facts: yes  # Ensure facts are gathered (this is the default, but explicitly defining it)
+  gather_facts: no  # Disable automatic fact gathering
 
   tasks:
+    - name: Gather facts for reachable hosts
+      setup:
+      when: ansible_facts is not defined  # Only gather facts if not already gathered
+
     - name: Ensure 'at' daemon is installed
       apt:
         name: at
