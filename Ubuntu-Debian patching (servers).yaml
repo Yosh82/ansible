@@ -3,12 +3,11 @@
   hosts: servers
   become: yes
   ignore_unreachable: yes  # Ignore unreachable hosts
-  gather_facts: no  # Disable automatic fact gathering
 
   tasks:
     - name: Gather facts for reachable hosts
       setup:
-      when: ansible_facts is not defined and inventory_hostname in groups['servers']  # Gather facts for hosts in the 'servers' group only
+      when: ansible_facts is not defined  # Gather facts only if not already gathered
 
     - name: Ensure 'at' daemon is installed
       apt:
