@@ -4,7 +4,7 @@
   tasks:
     - name: Display a welcome message at the start of the playbook
       debug:
-        msg: |
+        msg:
           ########################################
           #                                      #
           #               ___====-_  _-====___   #
