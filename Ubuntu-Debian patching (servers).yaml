@@ -13,7 +13,7 @@
         update_cache: yes
       retries: 3  # Retry up to 3 times
       delay: 10  # Wait 10 seconds between retries
-      when: ansible_facts is defined  # Only run if facts are gathered
+      when: ansible_facts is defined  # Run if facts are gathered
 
     - name: Ensure 'atd' service is running
       systemd:
@@ -22,7 +22,7 @@
         state: started
       retries: 3  # Retry up to 3 times
       delay: 10  # Wait 10 seconds between retries
-      when: ansible_facts is defined  # Only run if facts are gathered
+      when: ansible_facts is defined  # Run if facts are gathered
 
     - name: Update apt cache
       apt:
@@ -30,7 +30,7 @@
         cache_valid_time: 3600
       retries: 3  # Retry up to 3 times
       delay: 10  # Wait 10 seconds between retries
-      when: ansible_facts is defined  # Only run if facts are gathered
+      when: ansible_facts is defined  # Run if facts are gathered
 
     - name: Upgrade all packages
       apt:
@@ -39,7 +39,7 @@
         autoclean: yes
       retries: 3  # Retry up to 3 times
       delay: 10  # Wait 10 seconds between retries
-      when: ansible_facts is defined  # Only run if facts are gathered
+      when: ansible_facts is defined  # Run if facts are gathered
 
     - name: Check if a reboot is required
       stat:
@@ -47,14 +47,13 @@
       register: reboot_required
       retries: 3  # Retry up to 3 times
       delay: 10  # Wait 10 seconds between retries
-      when: ansible_facts is defined  # Only run if facts are gathered
+      when: ansible_facts is defined  # Run if facts are gathered
 
     - name: Schedule reboot in 24 hours if required
-      when: reboot_required.stat.exists
+      when: reboot_required.stat.exists and ansible_facts is defined  # Run if facts are gathered and reboot required
       shell: |
         echo "shutdown -r now" | at now + 24 hours
       args:
         executable: /bin/bash
       retries: 3  # Retry up to 3 times
       delay: 10  # Wait 10 seconds between retries
-      when: ansible_facts is defined  # Only run if facts are gathered
