@@ -3,8 +3,6 @@
   hosts: servers
   become: yes
   ignore_unreachable: yes  # Ignore unreachable hosts
-  retries: 3  # Retry up to 3 times
-  delay: 10  # Wait 10 seconds between retries
 
   tasks:
     - name: Ensure 'at' daemon is installed
@@ -12,28 +10,38 @@
         name: at
         state: present
         update_cache: yes
+      retries: 3  # Retry up to 3 times
+      delay: 10  # Wait 10 seconds between retries
 
     - name: Ensure 'atd' service is running
       systemd:
         name: atd
         enabled: yes
         state: started
+      retries: 3  # Retry up to 3 times
+      delay: 10  # Wait 10 seconds between retries
 
     - name: Update apt cache
       apt:
         update_cache: yes
         cache_valid_time: 3600
+      retries: 3  # Retry up to 3 times
+      delay: 10  # Wait 10 seconds between retries
 
     - name: Upgrade all packages
       apt:
         upgrade: dist
         autoremove: yes
         autoclean: yes
+      retries: 3  # Retry up to 3 times
+      delay: 10  # Wait 10 seconds between retries
 
     - name: Check if a reboot is required
       stat:
         path: /var/run/reboot-required
       register: reboot_required
+      retries: 3  # Retry up to 3 times
+      delay: 10  # Wait 10 seconds between retries
 
     - name: Schedule reboot in 24 hours if required
       when: reboot_required.stat.exists
@@ -41,3 +49,5 @@
         echo "shutdown -r now" | at now + 24 hours
       args:
         executable: /bin/bash
+      retries: 3  # Retry up to 3 times
+      delay: 10  # Wait 10 seconds between retries
