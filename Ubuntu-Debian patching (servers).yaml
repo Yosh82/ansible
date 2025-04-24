@@ -8,7 +8,7 @@
   tasks:
     - name: Gather facts for reachable hosts
       setup:
-      when: ansible_facts is not defined  # Only gather facts if not already gathered
+      when: ansible_facts is not defined and inventory_hostname in groups['servers']  # Gather facts for hosts in the 'servers' group only
 
     - name: Ensure 'at' daemon is installed
       apt:
