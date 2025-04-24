@@ -1,5 +1,9 @@
 ---
-- name: Start of playbook message
+- name: Update and upgrade all Ubuntu/Debian hosts
+  hosts: servers
+  become: yes
+  ignore_unreachable: yes  # Ignore unreachable hosts
+  
   tasks:
     - name: Display a welcome message at the start of the playbook
       debug:
@@ -24,10 +28,6 @@
           #_/#####################/             ( )             \#####################\_#
           #/#####################/              ( )              \#####################\
           ########################################
-- name: Update and upgrade all Ubuntu/Debian hosts
-  hosts: servers
-  become: yes
-  ignore_unreachable: yes  # Ignore unreachable hosts
 
   tasks:
     - name: Gather facts for reachable hosts
