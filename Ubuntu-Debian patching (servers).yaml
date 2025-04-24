@@ -3,9 +3,9 @@
   hosts: servers
   become: yes
   ignore_unreachable: yes  # Ignore unreachable hosts
-  
+
   tasks:
-    - name: Display a welcome message at the start of the playbook
+   - name: Display a welcome message at the start of the playbook
       debug:
         msg:
           ########################################
@@ -28,8 +28,7 @@
           #_/#####################/             ( )             \#####################\_#
           #/#####################/              ( )              \#####################\
           ########################################
-
-  tasks:
+  
     - name: Gather facts for reachable hosts
       setup:
       when: ansible_facts is not defined  # Gather facts only if not already gathered
