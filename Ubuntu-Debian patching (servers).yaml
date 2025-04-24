@@ -1,6 +1,5 @@
 ---
 - name: Start of playbook message
-  hosts: localhost
   tasks:
     - name: Display a welcome message at the start of the playbook
       debug:
