@@ -54,7 +54,7 @@
       when: ansible_facts is defined  # Run if facts are gathered
 
     - name: Schedule reboot in 24 hours if required
-      when: reboot_required.stat.exists and ansible_facts is defined  # Run if facts are gathered and reboot required
+      when: reboot_required.stat.exists is defined and reboot_required.stat.exists and ansible_facts is defined  # Run if reboot is required and facts are gathered
       shell: |
         echo "shutdown -r now" | at now + 24 hours
       args:
