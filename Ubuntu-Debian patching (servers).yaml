@@ -2,6 +2,9 @@
 - name: Update and upgrade all Ubuntu/Debian hosts
   hosts: servers
   become: yes
+  ignore_unreachable: yes  # Ignore unreachable hosts
+  retries: 3  # Retry up to 3 times
+  delay: 10  # Wait 10 seconds between retries
 
   tasks:
     - name: Ensure 'at' daemon is installed
